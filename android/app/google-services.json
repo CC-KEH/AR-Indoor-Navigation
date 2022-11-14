@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "579936879619",
+    "project_id": "ar-indoor-navigation-bf104",
+    "storage_bucket": "ar-indoor-navigation-bf104.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579936879619:android:51a611b4b3ae5b5e7d3a36",
+        "android_client_info": {
+          "package_name": "com.minor.arindoornavigation.ar_indoor_navigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579936879619-s042g78ela6dedmvebipk7psm0sh4e3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb813Wr_1XyRjxE5eG-hwtxZBdHOwCqoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579936879619-s042g78ela6dedmvebipk7psm0sh4e3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
