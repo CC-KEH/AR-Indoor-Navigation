@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +17,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Firebase Authentication'),
+      initialRoute: '/registration',
+      routes: {
+        "/home": (context) => WelcomeScreen(),
+        "/registration": (context) => RegistrationScreen(),
+        // "/support": (context) => RegistrationScreen(),
+        // "/chat": (context) => RegistrationScreen(),
+        // "/contacts": (context) => RegistrationScreen(),
+        // "/location": (context) => RegistrationScreen(),
+      },
     );
   }
 }
@@ -30,39 +41,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  //Back-End Work
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
 
   @override
+  Widget build(BuildContext context) {}
+}
+
+class FlashChat extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+        textTheme: TextTheme(
+            //body1: TextStyle(color: Colors.black54),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      initialRoute: '/',
+      routes: {
+        "/": (context) => WelcomeScreen(),
+        "/login": (context) => LoginScreen(),
+        "/registration": (context) => RegistrationScreen(),
+        "/chat": (context) => ChatScreen(),
+      },
     );
   }
 }
