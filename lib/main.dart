@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ar_indoor_navigation/Screens/registration_screen.dart';
+import 'package:ar_indoor_navigation/Screens/home_screen.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,10 +22,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Firebase Authentication'),
       initialRoute: '/registration',
       routes: {
-        "/home": (context) => WelcomeScreen(),
+        "/home": (context) => HomeScreen(),
         "/registration": (context) => RegistrationScreen(),
         // "/support": (context) => RegistrationScreen(),
         // "/chat": (context) => RegistrationScreen(),
@@ -31,41 +35,129 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class LoginScreen extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  //Back-End Work
-  final _auth = FirebaseAuth.instance;
-  late String email;
-  late String password;
+class _LoginScreenState extends State<LoginScreen> {
+  final _key = GlobalKey<FormState>();
 
-  @override
-  Widget build(BuildContext context) {}
-}
+  // final AuthenticationService _auth = AuthenticationService();
 
-class FlashChat extends StatelessWidget {
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        textTheme: TextTheme(
-            //body1: TextStyle(color: Colors.black54),
+    return Scaffold(
+      body: Container(
+        color: Colors.deepPurple,
+        child: Center(
+          child: Form(
+            key: _key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Login',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _emailContoller,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Email cannot be empty';
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(color: Colors.white)),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password cannot be empty';
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: TextStyle(color: Colors.white)),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      TextButton(
+                        child: Text(
+                          'Not registerd? Sign up',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          // Navigator.of(context).push(
+                          //   CupertinoPageRoute(
+                          //     fullscreenDialog: true,
+                          //     builder: (context) => RegistrationScreen(),
+                          //   ),
+                          // );
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (_key.currentState!.validate()) {
+                                //signInUser();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
       ),
-      initialRoute: '/',
-      routes: {
-        "/": (context) => WelcomeScreen(),
-        "/login": (context) => LoginScreen(),
-        "/registration": (context) => RegistrationScreen(),
-        "/chat": (context) => ChatScreen(),
-      },
     );
   }
+
+  // void signInUser() async {
+  //   dynamic authResult =
+  //       await _auth.loginUser(_emailContoller.text, _passwordController.text);
+  //   if (authResult == null) {
+  //     print('Sign in error. could not be able to login');
+  //   } else {
+  //     _emailContoller.clear();
+  //     _passwordController.clear();
+  //     Navigator.pushNamed(context, '/dashboard');
+  //   }
+  // }
 }

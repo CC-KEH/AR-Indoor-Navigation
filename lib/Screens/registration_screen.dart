@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ar_indoor_navigation/Services/AuthenticationServices.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -6,98 +7,132 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  late String email;
-  late String password;
+  final _key = GlobalKey<FormState>();
+
+  final AuthenticationServices _auth = AuthenticationServices();
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              height: 200.0,
-              child: Image.asset('images/logo.png'),
-            ),
-            SizedBox(
-              height: 48.0,
-            ),
-            TextField(
-              onChanged: (value) {
-                email = value;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your email',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            TextField(
-              obscureText: true,
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your password',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 24.0,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    print(email);
-                    print(password);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white),
+      body: Container(
+        color: Colors.deepPurpleAccent,
+        child: Center(
+          child: Form(
+            key: _key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Register',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Name cannot be empty';
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Name',
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            )),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _emailContoller,
+                        validator: (value) {
+                          if (value != null && value.isEmpty) {
+                            return "Email can't be empty";
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(color: Colors.white)),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 30),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value != null && value.isEmpty) {
+                            return "Password can't be empty";
+                          } else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: TextStyle(color: Colors.white)),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              if (_key.currentState!.validate()) {
+                                createUser();
+                              }
+                            },
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  void createUser() async {
+    dynamic result = await _auth.createNewUser(
+        _emailContoller.text, _passwordController.text);
+    if (result == null) {
+      print('Email is not valid');
+    } else {
+      print(result.toString());
+      _nameController.clear();
+      _passwordController.clear();
+      _emailContoller.clear();
+      Navigator.pop(
+          context); //With this user won't be able to create same user again.
+    }
   }
 }
