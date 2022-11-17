@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -9,68 +11,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  child: Image.asset('images/logo.png'),
-                  height: 60.0,
-                ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 48.0,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/login");
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/registration");
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
-            ),
+          children: [
+            Text('Signed in Successfully'),
+            MaterialButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              color: Colors.indigo.shade300,
+              child: Text('Sign out'),
+            )
           ],
         ),
       ),

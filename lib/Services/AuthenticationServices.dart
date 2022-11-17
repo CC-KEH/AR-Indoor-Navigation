@@ -15,7 +15,14 @@ class AuthenticationServices {
       print(e.toString());
     }
   }
+
   //Sign in
+  // Future signIn(String email, String password) async {
+  //   await _auth.signInWithEmailAndPassword(
+  //     email: email,
+  //     password: password,
+  //   );
+  // }
 
   //Sign out
 
