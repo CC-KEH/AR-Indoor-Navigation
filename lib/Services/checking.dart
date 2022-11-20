@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_indoor_navigation/Screens/login_page.dart';
-import 'package:ar_indoor_navigation/Screens/home_screen.dart';
+import 'package:ar_indoor_navigation/Screens/Student/login_page.dart';
+import 'package:ar_indoor_navigation/Screens/Student/home_screen.dart';
 
 class ICheckUser extends StatelessWidget {
   const ICheckUser({Key? key}) : super(key: key);

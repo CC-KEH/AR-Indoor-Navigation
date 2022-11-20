@@ -1,11 +1,13 @@
-import 'package:ar_indoor_navigation/Screens/login_page.dart';
+import 'package:ar_indoor_navigation/Screens/Admin/EnterDetails.dart';
+import 'package:ar_indoor_navigation/Screens/Student/chat_screen.dart';
+import 'package:ar_indoor_navigation/Screens/Student/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ar_indoor_navigation/Screens/registration_screen.dart';
-import 'package:ar_indoor_navigation/Screens/home_screen.dart';
+import 'package:ar_indoor_navigation/Screens/Student/login_page.dart';
+import 'package:ar_indoor_navigation/Screens/Student/home_screen.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
-import 'package:ar_indoor_navigation/Screens/login_page.dart';
+import 'package:ar_indoor_navigation/Screens/Student/registration_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,15 +26,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/registration',
+      initialRoute: '/enterbatchdetails',
       routes: {
         "/home": (context) => HomeScreen(),
         "/registration": (context) => RegistrationScreen(),
         "/login": (context) => LoginScreen(),
-        // "/support": (context) => RegistrationScreen(),
-        // "/chat": (context) => RegistrationScreen(),
-        // "/contacts": (context) => RegistrationScreen(),
+        "/chat": (context) => Chat(),
+        "/contacts": (context) => Contacts(),
+        "/enterbatchdetails": (context) => EnterDetails(),
+
         // "/location": (context) => RegistrationScreen(),
+        // "/support": (context) => RegistrationScreen(),
       },
     );
   }

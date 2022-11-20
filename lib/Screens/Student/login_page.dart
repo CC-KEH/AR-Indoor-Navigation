@@ -1,4 +1,4 @@
-import 'package:ar_indoor_navigation/Screens/registration_screen.dart';
+import 'package:ar_indoor_navigation/Screens/Student/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ar_indoor_navigation/Services/AuthenticationServices.dart';
