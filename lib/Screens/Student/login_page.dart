@@ -1,21 +1,19 @@
 import 'package:ar_indoor_navigation/Screens/Student/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ar_indoor_navigation/Services/AuthenticationServices.dart';
 import 'package:ar_indoor_navigation/Services/checking.dart';
 
 class LoginScreen extends StatefulWidget {
+  final VoidCallback showRegistrationScreen;
+  const LoginScreen({Key? key, required this.showRegistrationScreen})
+      : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _key = GlobalKey<FormState>();
-
-  final AuthenticationServices _auth = AuthenticationServices();
-
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   Future signIn() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -138,11 +136,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Not a member?',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    ' Register',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: widget.showRegistrationScreen,
+                    child: Text(
+                      ' Register',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -154,111 +155,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  // body: Container(
-  // color: Colors.deepPurple,
-  // child: Center(
-  // child: Form(
-  // key: _key,
-  // child: Column(
-  // mainAxisAlignment: MainAxisAlignment.center,
-  // children: [
-  // Text(
-  // 'Login',
-  // style: TextStyle(
-  // color: Colors.white,
-  // fontSize: 30,
-  // fontWeight: FontWeight.w600,
-  // ),
-  // ),
-  // Padding(
-  // padding: const EdgeInsets.all(32.0),
-  // child: Column(
-  // children: [
-  // SizedBox(height: 30),
-  // TextFormField(
-  // controller: _emailController,
-  // validator: (value) {
-  // if (value!.isEmpty) {
-  // return 'Email cannot be empty';
-  // } else
-  // return null;
-  // },
-  // decoration: InputDecoration(
-  // labelText: 'Email',
-  // labelStyle: TextStyle(color: Colors.white)),
-  // style: TextStyle(color: Colors.white),
-  // ),
-  // SizedBox(height: 30),
-  // TextFormField(
-  // controller: _passwordController,
-  // obscureText: true,
-  // validator: (value) {
-  // if (value!.isEmpty) {
-  // return 'Password cannot be empty';
-  // } else
-  // return null;
-  // },
-  // decoration: InputDecoration(
-  // labelText: 'Password',
-  // labelStyle: TextStyle(color: Colors.white)),
-  // style: TextStyle(
-  // color: Colors.white,
-  // ),
-  // ),
-  // SizedBox(height: 5),
-  // TextButton(
-  // child: Text(
-  // 'Not registered? Sign up',
-  // style: TextStyle(
-  // color: Colors.white,
-  // ),
-  // ),
-  // onPressed: () {
-  // // Navigator.of(context).push(
-  // //   CupertinoPageRoute(
-  // //     fullscreenDialog: true,
-  // //     builder: (context) => RegistrationScreen(),
-  // //   ),
-  // // );
-  // },
-  // ),
-  // SizedBox(height: 30),
-  // Row(
-  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  // children: [
-  // TextButton(
-  // child: Text(
-  // 'Login',
-  // style: TextStyle(
-  // color: Colors.white,
-  // ),
-  // ),
-  // onPressed: () {
-  // if (_key.currentState!.validate()) {
-  // //signInUser();
-  // }
-  // },
-  // ),
-  // ],
-  // ),
-  // ],
-  // ),
-  // ),
-  // ],
-  // ),
-  // ),
-  // ),
-  // ),
-
-// void signInUser() async {
-//   dynamic authResult =
-//       await _auth.loginUser(_emailController.text, _passwordController.text);
-//   if (authResult == null) {
-//     print('Sign in error. could not be able to login');
-//   } else {
-//     _emailController.clear();
-//     _passwordController.clear();
-//     Navigator.pushNamed(context, '/dashboard');
-//   }
-// }
 }

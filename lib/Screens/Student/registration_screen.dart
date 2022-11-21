@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_indoor_navigation/Services/AuthenticationServices.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  // For going to login page
+  final VoidCallback showLoginScreen;
+  const RegistrationScreen({Key? key, required this.showLoginScreen})
+      : super(key: key);
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -36,7 +39,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future signUp() async {
-    print("In Sign up func");
     if (passwordConfirmed()) {
       print("Password Confirmed");
       //Create User
@@ -352,6 +354,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(
                     height: 30,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already a member?',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: widget.showLoginScreen,
+                        child: Text(
+                          ' Sign in',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -360,44 +381,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
-
-  // Row(
-  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  // children: [
-  // TextButton(
-  // onPressed: () {
-  // if (_key.currentState!.validate()) {
-  // //createUser();
-  // }
-  // },
-  // child: Text(
-  // 'Sign Up',
-  // style: TextStyle(color: Colors.white),
-  // ),
-  // ),
-  // TextButton(
-  // onPressed: () {
-  // Navigator.pop(context);
-  // },
-  // child: Text(
-  // 'Cancel',
-  // style: TextStyle(color: Colors.white),
-  // ),
-  // )
-  // ],
-  // ),
-  // void createUser() async {
-  //   dynamic result = await _auth.createNewUser(
-  //       _emailController.text, _passwordController.text);
-  //   if (result == null) {
-  //     print('Email is not valid');
-  //   } else {
-  //     print(result.toString());
-  //     _nameController.clear();
-  //     _passwordController.clear();
-  //     _emailController.clear();
-  //     Navigator.pop(
-  //         context); //With this user won't be able to create same user again.
-  //   }
-  // }
 }

@@ -1,13 +1,8 @@
-import 'package:ar_indoor_navigation/Screens/Admin/EnterDetails.dart';
-import 'package:ar_indoor_navigation/Screens/Student/chat_screen.dart';
-import 'package:ar_indoor_navigation/Screens/Student/contacts_screen.dart';
+import 'package:ar_indoor_navigation/Services/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ar_indoor_navigation/Screens/Student/login_page.dart';
 import 'package:ar_indoor_navigation/Screens/Student/home_screen.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-import 'package:ar_indoor_navigation/Screens/Student/registration_screen.dart';
+import 'package:ar_indoor_navigation/Services/checking.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,21 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/contacts',
+      initialRoute: '/checking',
       routes: {
+        "/auth": (context) => AuthPage(),
         "/home": (context) => HomeScreen(),
-        "/registration": (context) => RegistrationScreen(),
-        "/login": (context) => LoginScreen(),
-        "/chat": (context) => Chat(),
-        "/contacts": (context) => Contacts(),
-        "/enterbatchdetails": (context) => EnterDetails(),
-
-        // "/location": (context) => RegistrationScreen(),
-        // "/support": (context) => RegistrationScreen(),
+        "/checking": (context) => Checking(),
       },
     );
   }
