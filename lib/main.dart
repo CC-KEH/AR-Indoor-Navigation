@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ar_indoor_navigation/Screens/Student/home_screen.dart';
 import 'package:ar_indoor_navigation/Services/checking.dart';
+import 'package:ar_indoor_navigation/Screens/Student/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +23,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/checking',
+      initialRoute: '/home',
       routes: {
         "/auth": (context) => AuthPage(),
         "/home": (context) => HomeScreen(),
         "/checking": (context) => Checking(),
+        "/chat": (context) => ChatScreen(),
       },
     );
   }

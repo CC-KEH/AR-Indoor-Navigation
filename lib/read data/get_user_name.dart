@@ -15,9 +15,9 @@ class GetUserName extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return Text('${data['First name']}' +
+          return Text('${data['First Name']}' +
               ' ' +
-              '${data['Last name']}' +
+              '${data['Last Name']}' +
               ' ' +
               '${data['Batch']}');
         }
