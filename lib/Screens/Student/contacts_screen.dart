@@ -15,6 +15,8 @@ class _ContactsState extends State<Contacts> {
   Map<String, dynamic>? userMap;
   List<String> docIDs = [];
   final TextEditingController _search = TextEditingController();
+  final _auth = FirebaseAuth.instance.currentUser!;
+
   void onSearch() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -43,6 +45,15 @@ class _ContactsState extends State<Contacts> {
             },
           ),
         );
+  }
+
+  String chatRoomId(String user1, String user2) {
+    if (user1[0].toLowerCase().codeUnits[0] >
+        user2.toLowerCase().codeUnits[0]) {
+      return "$user1$user2";
+    } else {
+      return "$user2$user1";
+    }
   }
 
   @override
@@ -137,9 +148,18 @@ class _ContactsState extends State<Contacts> {
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 2),
                           child: ListTile(
-                            onTap: () => Navigator.of(context).push(
+                            onTap: () {
+                              String roomId = chatRoomId(
+                                  _auth.displayName!, userMap?['First Name']);
+                              Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (_) => ChatScreen())),
+                                  builder: (_) => ChatScreen(
+                                    chatScreenId: roomId,
+                                    userMap: userMap!,
+                                  ),
+                                ),
+                              );
+                            },
                             title: GetUserName(
                               documentId: docIDs[index],
                             ),

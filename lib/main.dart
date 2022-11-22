@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         "/auth": (context) => AuthPage(),
         "/home": (context) => HomeScreen(),
         "/checking": (context) => Checking(),
-        "/chat": (context) => ChatScreen(),
+        //"/chat": (context) => ChatScreen(),
       },
     );
   }
