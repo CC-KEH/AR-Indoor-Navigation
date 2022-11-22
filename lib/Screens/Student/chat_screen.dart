@@ -8,7 +8,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  Color mainColor = Color(0xff292F3F);
   late String messageText;
+  late final String chatRoomId;
+
   final _firestore = FirebaseFirestore.instance;
   final _user = FirebaseAuth.instance.currentUser!;
 
@@ -24,6 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: mainColor,
       appBar: AppBar(
         leading: null,
         actions: <Widget>[
@@ -34,21 +38,13 @@ class _ChatScreenState extends State<ChatScreen> {
               }),
         ],
         title: Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: mainColor,
       ),
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // StreamBuilder<QuerySnapshot>(
-            //   stream: _firestore.collection('messages').snapshots(),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData) {
-            //       final messages = snapshot.data.docs;
-            //     }
-            //   },
-            // ),
             Container(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,6 +54,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       onChanged: (value) {
                         messageText = value;
                       },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
                   ),
                   TextButton(
