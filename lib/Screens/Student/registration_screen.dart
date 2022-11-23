@@ -42,27 +42,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (passwordConfirmed()) {
       print("Password Confirmed");
       //Create User
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.toString().trim(),
-        );
-        //Add user details if the user is authenticated
-        addDetails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.toString().trim(),
-          _batchController.text.trim(),
-          int.parse(_enrollNoController.text.trim()),
-          _courseController.text.trim(),
-          int.parse(_yearController.text.trim()),
-          //DateTime.parse(_dobController.text.trim()),
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'invalid-email') {
-          // Do something :D
-        }
-      }
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.toString().trim(),
+      );
+      FirebaseAuth.instance.currentUser!
+          .updateDisplayName(_firstNameController.text.trim());
+      addDetails(
+        _firstNameController.text.trim(),
+        _lastNameController.text.trim(),
+        _emailController.text.toString().trim(),
+        _batchController.text.trim(),
+        int.parse(_enrollNoController.text.trim()),
+        _courseController.text.trim(),
+        int.parse(_yearController.text.trim()),
+        //DateTime.parse(_dobController.text.trim()),
+      );
     }
   }
 
@@ -304,27 +299,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.grey.shade200,
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: TextField(
-                        controller: _dobController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                          hintText: "Date of Birth",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 25),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       color: Colors.grey.shade200,
+                  //       border: Border.all(color: Colors.white),
+                  //     ),
+                  //     child: TextField(
+                  //       controller: _dobController,
+                  //       decoration: InputDecoration(
+                  //         contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  //         hintText: "Date of Birth",
+                  //         border: InputBorder.none,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 30,
                   ),

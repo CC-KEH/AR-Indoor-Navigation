@@ -9,17 +9,39 @@ class Contacts extends StatefulWidget {
   State<Contacts> createState() => _ContactsState();
 }
 
-class _ContactsState extends State<Contacts> {
+class _ContactsState extends State<Contacts> with WidgetsBindingObserver {
   Color mainColor = Color(0xff292F3F);
   bool isLoading = false;
   Map<String, dynamic>? userMap;
   List<String> docIDs = [];
   final TextEditingController _search = TextEditingController();
   final _auth = FirebaseAuth.instance.currentUser!;
+  final _firestore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+    setStatus("Online");
+  }
+
+  void setStatus(String status) async {
+    await _firestore.collection('Users').doc(_auth.uid).update({
+      "status": status,
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // online
+      setStatus("Online");
+    } else {
+      // offline
+      setStatus("Offline");
+    }
+  }
 
   void onSearch() async {
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
     setState(() {
       isLoading = true;
     });
@@ -47,7 +69,7 @@ class _ContactsState extends State<Contacts> {
         );
   }
 
-  String chatRoomId(String user1, String user2) {
+  String chatScreenId(String user1, String user2) {
     if (user1[0].toLowerCase().codeUnits[0] >
         user2.toLowerCase().codeUnits[0]) {
       return "$user1$user2";
@@ -58,6 +80,7 @@ class _ContactsState extends State<Contacts> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
@@ -73,108 +96,148 @@ class _ContactsState extends State<Contacts> {
               child: Icon(Icons.logout)),
         ],
       ),
-      body: Center(
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Container(
-                  height: 200,
-                  width: 350,
+      body: isLoading
+          ? Center(
+              child: Container(
+                height: size.height / 20,
+                width: size.height / 20,
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Column(
+              children: [
+                SizedBox(
+                  height: size.height / 20,
+                ),
+                Container(
+                  height: size.height / 14,
+                  width: size.width,
                   alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 300,
-                            child: TextField(
-                              controller: _search,
-                              decoration: InputDecoration(
-                                hintText: "Search Users",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: GestureDetector(
-                              onTap: onSearch,
-                              child: isLoading
-                                  ? Container(
-                                      width: 40,
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : Container(
-                                      child: Icon(Icons.search_rounded),
-                                    ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 100,
-                      ),
-                      Container(
-                        child: Text(
-                          'Catch with your Batch mates',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
+                  child: Container(
+                    height: size.height / 14,
+                    width: size.width / 1.15,
+                    child: TextField(
+                      controller: _search,
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      )
-                    ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: FutureBuilder(
-                  future: getDocId(),
-                  builder: (context, snapshot) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: docIDs.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2),
-                          child: ListTile(
-                            onTap: () {
-                              String roomId = chatRoomId(
-                                  _auth.displayName!, userMap?['First Name']);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => ChatScreen(
-                                    chatScreenId: roomId,
-                                    userMap: userMap!,
-                                  ),
-                                ),
-                              );
-                            },
-                            title: GetUserName(
-                              documentId: docIDs[index],
-                            ),
-                            textColor: Colors.white,
-                          ),
-                        );
-                      },
-                    );
-                  },
+                SizedBox(
+                  height: size.height / 50,
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+                ElevatedButton(
+                  onPressed: onSearch,
+                  child: Text("Search"),
+                ),
+                SizedBox(
+                  height: size.height / 30,
+                ),
+                userMap != null
+                    ? ListTile(
+                        onTap: () {
+                          String roomId = chatScreenId(
+                              _auth.displayName!, userMap!['First Name']);
+                          print(roomId);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ChatScreen(
+                                chatScreenId: roomId,
+                                userMap: userMap!,
+                              ),
+                            ),
+                          );
+                        },
+                        leading: Icon(Icons.account_box, color: Colors.white),
+                        title: Text(
+                          userMap!['First Name'],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          userMap!['Email'],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        trailing: Icon(Icons.chat, color: Colors.white),
+                      )
+                    : Container(),
+                Expanded(
+                  child: FutureBuilder(
+                    future: getDocId(),
+                    builder: (context, snapshot) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: docIDs.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 2),
+                            child: ListTile(
+                              onTap: () {
+                                String roomId = chatScreenId(
+                                    _auth.displayName!, userMap!['First Name']);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => ChatScreen(
+                                      chatScreenId: roomId,
+                                      userMap: userMap!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              title: GetUserName(
+                                documentId: docIDs[index],
+                              ),
+                              textColor: Colors.white,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
+//Expanded(
+//                 child: FutureBuilder(
+//                   future: getDocId(),
+//                   builder: (context, snapshot) {
+//                     return ListView.builder(
+//                       shrinkWrap: true,
+//                       itemCount: docIDs.length,
+//                       itemBuilder: (context, index) {
+//                         return Padding(
+//                           padding: EdgeInsets.symmetric(vertical: 2),
+//                           child: ListTile(
+//                             onTap: () {
+//                               String roomId = chatRoomId(
+//                                   _auth.displayName!, userMap!['First Name']);
+//                               Navigator.of(context).push(
+//                                 MaterialPageRoute(
+//                                   builder: (_) => ChatScreen(
+//                                     chatScreenId: roomId,
+//                                     userMap: userMap!,
+//                                   ),
+//                                 ),
+//                               );
+//                             },
+//                             title: GetUserName(
+//                               documentId: docIDs[index],
+//                             ),
+//                             textColor: Colors.white,
+//                           ),
+//                         );
+//                       },
+//                     );
+//                   },
+//                 ),
+//               ),
