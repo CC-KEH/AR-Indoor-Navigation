@@ -1,32 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
+import 'dart:io';
 class ChatScreen extends StatelessWidget {
   Color mainColor = Color(0xff292F3F);
-  late String messageText;
-  late final String chatScreenId;
+  late final String chatRoomId;
   final _message = TextEditingController();
   final Map<String, dynamic> userMap;
-  ChatScreen({required this.chatScreenId, required this.userMap});
+  ChatScreen({required this.chatRoomId, required this.userMap});
   final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance.currentUser!;
+  final _auth = FirebaseAuth.instance;
+
+  File? imageFile;
+
+  Future getImage() async {
+    ImagePicker _picker = ImagePicker();
+
+    await _picker.pickImage(source: ImageSource.gallery).then((xFile) {
+      if (xFile != null) {
+        imageFile = File(xFile.path);
+        uploadImage();
+      }
+    });
+  }
+
+  Future uploadImage() async {
+    String fileName = Uuid().v1();
+    int status = 1;
+
+    await _firestore
+        .collection('chatroom')
+        .doc(chatRoomId)
+        .collection('chats')
+        .doc(fileName)
+        .set({
+      "sendby": _auth.currentUser!.displayName,
+      "message": "",
+      "type": "img",
+      "time": FieldValue.serverTimestamp(),
+    });
+
+    var ref =
+    FirebaseStorage.instance.ref().child('images').child("$fileName.jpg");
+
+    var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
+      await _firestore
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .doc(fileName)
+          .delete();
+
+      status = 0;
+    });
+
+    if (status == 1) {
+      String imageUrl = await uploadTask.ref.getDownloadURL();
+
+      await _firestore
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .doc(fileName)
+          .update({"message": imageUrl});
+
+      print(imageUrl);
+    }
+  }
   void onSendMessage() async {
     if (_message.text.isNotEmpty) {
       Map<String, dynamic> messages = {
-        "sendby": _auth.displayName,
+        "sendby": _auth.currentUser!.displayName,
         "message": _message.text,
         "type": "text",
         "time": FieldValue.serverTimestamp(),
       };
+
       _message.clear();
       await _firestore
-          .collection('chat-screen')
-          .doc(chatScreenId)
+          .collection('chatroom')
+          .doc(chatRoomId)
           .collection('chats')
           .add(messages);
     } else {
-      print("Enter some text");
+      print("Enter Some Text");
     }
   }
 
@@ -36,15 +96,27 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: mainColor,
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pushNamed(context, "");
-            },
-          ),
-        ],
-        title: Text(userMap['First Name']),
+        title: StreamBuilder<DocumentSnapshot>(
+          stream:
+          _firestore.collection("Users").doc(userMap['uid']).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.data != null) {
+              return Container(
+                child: Column(
+                  children: [
+                    Text(userMap['First Name']),
+                    Text(
+                      snapshot.data!['status'],
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
         backgroundColor: mainColor,
       ),
       body: SingleChildScrollView(
@@ -55,8 +127,8 @@ class ChatScreen extends StatelessWidget {
               width: size.width,
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
-                    .collection('chat-screen')
-                    .doc(chatScreenId)
+                    .collection('chatroom')
+                    .doc(chatRoomId)
                     .collection('chats')
                     .orderBy("time", descending: false)
                     .snapshots(),
@@ -66,10 +138,12 @@ class ChatScreen extends StatelessWidget {
                     return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
-                          Map<String, dynamic> map = snapshot.data!.docs[index]
-                              .data() as Map<String, dynamic>;
-                          return messages(size, map, context);
-                        });
+                          return Text(snapshot.data!.docs[index]['message']);
+                          // Map<String, dynamic> map = snapshot.data!.docs[index]
+                          //     .data() as Map<String, dynamic>;
+                          // return messages(size, map, context);
+                        },
+                    );
                   } else {
                     return Container();
                   }
@@ -77,21 +151,26 @@ class ChatScreen extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height / 10,
+              height: size.height / 12,
               width: size.width,
               alignment: Alignment.center,
               child: Container(
                 height: size.height / 12,
                 width: size.width / 1.1,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: size.height / 12,
+                      height: size.height / 17,
                       width: size.width / 1.5,
                       child: TextField(
                         controller: _message,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(2),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: Colors.greenAccent.shade200),),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -102,8 +181,14 @@ class ChatScreen extends StatelessWidget {
                       onPressed: () {
                         onSendMessage;
                       },
-                      icon: Icon(Icons.send),
-                    )
+                      icon: Icon(Icons.image,color: Colors.white,size: 35,),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        onSendMessage;
+                      },
+                      icon: Icon(Icons.send,color: Colors.white,size: 35,),
+                    ),
                   ],
                 ),
               ),
@@ -118,7 +203,7 @@ class ChatScreen extends StatelessWidget {
     return map['type'] == "text"
         ? Container(
             width: size.width,
-            alignment: map['sendby'] == _auth.displayName
+            alignment: map['sendby'] == _auth.currentUser!.displayName
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: Container(
@@ -142,7 +227,7 @@ class ChatScreen extends StatelessWidget {
             height: size.height / 2.5,
             width: size.width,
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-            alignment: map['sendby'] == _auth.displayName
+            alignment: map['sendby'] == _auth.currentUser!.displayName
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: InkWell(

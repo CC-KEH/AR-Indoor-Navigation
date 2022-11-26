@@ -1,6 +1,6 @@
-import 'package:ar_indoor_navigation/Screens/Student/login_page.dart';
+import 'package:ar_indoor_navigation/Authentication/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_indoor_navigation/Screens/Student/registration_screen.dart';
+import 'package:ar_indoor_navigation/Authentication/registration_screen.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -20,8 +20,8 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     if (showLoginPage)
-      return LoginScreen(showRegistrationScreen: toggleScreens);
+      return LoginScreen();
     else
-      return RegistrationScreen(showLoginScreen: toggleScreens);
+      return RegistrationScreen();
   }
 }

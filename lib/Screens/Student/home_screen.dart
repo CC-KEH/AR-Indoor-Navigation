@@ -1,17 +1,17 @@
 import 'package:ar_indoor_navigation/Screens/Student/contacts_screen.dart';
-import 'package:ar_indoor_navigation/Screens/Student/login_page.dart';
+import 'package:ar_indoor_navigation/Authentication/login_page.dart';
 import 'package:ar_indoor_navigation/utils/class_recommendations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_indoor_navigation/utils/class_recommendations.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainScreenState extends State<MainScreen> {
   Color mainColor = Color(0xff292F3F);
 
   @override

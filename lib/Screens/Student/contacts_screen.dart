@@ -69,7 +69,7 @@ class _ContactsState extends State<Contacts> with WidgetsBindingObserver {
         );
   }
 
-  String chatScreenId(String user1, String user2) {
+  String chatRoomId(String user1, String user2) {
     if (user1[0].toLowerCase().codeUnits[0] >
         user2.toLowerCase().codeUnits[0]) {
       return "$user1$user2";
@@ -140,13 +140,13 @@ class _ContactsState extends State<Contacts> with WidgetsBindingObserver {
                 userMap != null
                     ? ListTile(
                         onTap: () {
-                          String roomId = chatScreenId(
+                          String roomId = chatRoomId(
                               _auth.displayName!, userMap!['First Name']);
                           print(roomId);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => ChatScreen(
-                                chatScreenId: roomId,
+                                chatRoomId: roomId,
                                 userMap: userMap!,
                               ),
                             ),
@@ -180,12 +180,12 @@ class _ContactsState extends State<Contacts> with WidgetsBindingObserver {
                             padding: EdgeInsets.symmetric(vertical: 2),
                             child: ListTile(
                               onTap: () {
-                                String roomId = chatScreenId(
+                                String roomId = chatRoomId(
                                     _auth.displayName!, userMap!['First Name']);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => ChatScreen(
-                                      chatScreenId: roomId,
+                                      chatRoomId: roomId,
                                       userMap: userMap!,
                                     ),
                                   ),
