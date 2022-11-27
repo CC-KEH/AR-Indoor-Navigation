@@ -74,51 +74,85 @@ class CustomButton extends StatelessWidget {
   _buildDecoration() {
     return BoxDecoration(
       color: _setColor(),
+      border: _setBorder(),
       borderRadius: _setBorderRadius(),
     );
   }
 
   _setPadding() {
     switch (padding) {
+      case ButtonPadding.PaddingAll11:
+        return getPadding(
+          all: 11,
+        );
+      case ButtonPadding.PaddingAll7:
+        return getPadding(
+          all: 7,
+        );
       default:
         return getPadding(
-          all: 12,
+          all: 18,
         );
     }
   }
 
   _setColor() {
     switch (variant) {
+      case ButtonVariant.FillBluegray800:
+        return ColorConstant.bluegray800;
+      case ButtonVariant.FillBluegray900:
+        return ColorConstant.bluegray900;
+      case ButtonVariant.OutlineGray900:
+        return ColorConstant.whiteA700;
+      case ButtonVariant.FillLightblue500:
+        return ColorConstant.lightBlue500;
+      case ButtonVariant.FillBluegray901:
+        return ColorConstant.bluegray901;
       default:
-        return ColorConstant.deepPurpleA200;
+        return ColorConstant.gray900;
+    }
+  }
+
+  _setBorder() {
+    switch (variant) {
+      case ButtonVariant.OutlineGray900:
+        return Border.all(
+          color: ColorConstant.gray900,
+          width: getHorizontalSize(
+            1.00,
+          ),
+        );
+      case ButtonVariant.FillGray900:
+      case ButtonVariant.FillBluegray800:
+      case ButtonVariant.FillBluegray900:
+      case ButtonVariant.FillLightblue500:
+      case ButtonVariant.FillBluegray901:
+        return null;
+      default:
+        return null;
     }
   }
 
   _setBorderRadius() {
     switch (shape) {
+      case ButtonShape.CircleBorder20:
+        return BorderRadius.circular(
+          getHorizontalSize(
+            20.00,
+          ),
+        );
+      case ButtonShape.CircleBorder17:
+        return BorderRadius.circular(
+          getHorizontalSize(
+            17.00,
+          ),
+        );
       case ButtonShape.Square:
         return BorderRadius.circular(0);
       default:
-        return BorderRadius.only(
-          topLeft: Radius.circular(
-            getHorizontalSize(
-              24.00,
-            ),
-          ),
-          topRight: Radius.circular(
-            getHorizontalSize(
-              24.00,
-            ),
-          ),
-          bottomLeft: Radius.circular(
-            getHorizontalSize(
-              0.00,
-            ),
-          ),
-          bottomRight: Radius.circular(
-            getHorizontalSize(
-              24.00,
-            ),
+        return BorderRadius.circular(
+          getHorizontalSize(
+            8.00,
           ),
         );
     }
@@ -126,14 +160,50 @@ class CustomButton extends StatelessWidget {
 
   _setFontStyle() {
     switch (fontStyle) {
+      case ButtonFontStyle.RobotoLight13:
+        return TextStyle(
+          color: ColorConstant.whiteA700,
+          fontSize: getFontSize(
+            13,
+          ),
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w300,
+        );
+      case ButtonFontStyle.UrbanistRomanSemiBold15Gray900:
+        return TextStyle(
+          color: ColorConstant.gray900,
+          fontSize: getFontSize(
+            15,
+          ),
+          fontFamily: 'Urbanist',
+          fontWeight: FontWeight.w600,
+        );
+      case ButtonFontStyle.RobotoRegular20:
+        return TextStyle(
+          color: ColorConstant.whiteA700,
+          fontSize: getFontSize(
+            20,
+          ),
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w400,
+        );
+      case ButtonFontStyle.DMSansRegular18:
+        return TextStyle(
+          color: ColorConstant.bluegray901,
+          fontSize: getFontSize(
+            18,
+          ),
+          fontFamily: 'DM Sans',
+          fontWeight: FontWeight.w400,
+        );
       default:
         return TextStyle(
           color: ColorConstant.whiteA700,
           fontSize: getFontSize(
-            16,
+            15,
           ),
-          fontFamily: 'GDS Transport Website',
-          fontWeight: FontWeight.w300,
+          fontFamily: 'Urbanist',
+          fontWeight: FontWeight.w600,
         );
     }
   }
@@ -141,17 +211,30 @@ class CustomButton extends StatelessWidget {
 
 enum ButtonShape {
   Square,
-  CustomBorderTL24,
+  RoundedBorder8,
+  CircleBorder20,
+  CircleBorder17,
 }
 
 enum ButtonPadding {
-  PaddingAll12,
+  PaddingAll18,
+  PaddingAll11,
+  PaddingAll7,
 }
 
 enum ButtonVariant {
-  FillDeeppurpleA200,
+  FillGray900,
+  FillBluegray800,
+  FillBluegray900,
+  OutlineGray900,
+  FillLightblue500,
+  FillBluegray901,
 }
 
 enum ButtonFontStyle {
-  GDSTransportWebsite16,
+  UrbanistRomanSemiBold15,
+  RobotoLight13,
+  UrbanistRomanSemiBold15Gray900,
+  RobotoRegular20,
+  DMSansRegular18,
 }

@@ -6,7 +6,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
+#  sdk: '>=2.18.2 <3.0.0'
 
 dependencies:
   flutter:
@@ -26,6 +27,9 @@ dependencies:
   simple_animations: ^5.0.0+3
   uuid: ^3.0.7
   image_picker: ^0.8.6
+  google_sign_in: ^5.0.7
+  pin_code_fields: ^7.3.0
+  sms_autofill: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +46,36 @@ flutter:
     - assets/
     - assets/images/
     - lib/icons/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoRegular.ttf
+          weight: 400
+        - asset: assets/fonts/RobotoLight.ttf
+          weight: 300
+        - asset: assets/fonts/RobotoRomanBold.ttf
+          weight: 700
+    - family: Urbanist
+      fonts:
+        - asset: assets/fonts/UrbanistRomanSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/UrbanistRomanBold.ttf
+          weight: 700
+        - asset: assets/fonts/UrbanistRomanMedium.ttf
+          weight: 500
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/PoppinsSemiBold.ttf
+          weight: 600
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/MontserratMedium.ttf
+          weight: 500
+    - family: DM Sans
+      fonts:
+        - asset: assets/fonts/DMSansBold.ttf
+          weight: 700
+        - asset: assets/fonts/DMSansRegular.ttf
+          weight: 400
+        - asset: assets/fonts/DMSansMedium.ttf
+          weight: 500

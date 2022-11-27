@@ -106,24 +106,39 @@ class CustomTextFormField extends StatelessWidget {
 
   _setFontStyle() {
     switch (fontStyle) {
+      case TextFormFieldFontStyle.RobotoLight13:
+        return TextStyle(
+          color: ColorConstant.whiteA700,
+          fontSize: getFontSize(
+            13,
+          ),
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w300,
+        );
       default:
         return TextStyle(
-          color: ColorConstant.black9007e,
+          color: ColorConstant.bluegray400,
           fontSize: getFontSize(
-            16,
+            15,
           ),
-          fontFamily: 'GDS Transport Website',
-          fontWeight: FontWeight.w300,
+          fontFamily: 'Urbanist',
+          fontWeight: FontWeight.w500,
         );
     }
   }
 
   _setOutlineBorderRadius() {
     switch (shape) {
+      case TextFormFieldShape.RoundedBorder20:
+        return BorderRadius.circular(
+          getHorizontalSize(
+            20.00,
+          ),
+        );
       default:
         return BorderRadius.circular(
           getHorizontalSize(
-            26.50,
+            8.00,
           ),
         );
     }
@@ -131,23 +146,47 @@ class CustomTextFormField extends StatelessWidget {
 
   _setBorderStyle() {
     switch (variant) {
-      default:
+      case TextFormFieldVariant.FillBluegray800:
         return OutlineInputBorder(
           borderRadius: _setOutlineBorderRadius(),
           borderSide: BorderSide.none,
+        );
+      case TextFormFieldVariant.OutlineIndigo50:
+        return OutlineInputBorder(
+          borderRadius: _setOutlineBorderRadius(),
+          borderSide: BorderSide(
+            color: ColorConstant.indigo50,
+            width: 1,
+          ),
+        );
+      default:
+        return OutlineInputBorder(
+          borderRadius: _setOutlineBorderRadius(),
+          borderSide: BorderSide(
+            color: ColorConstant.indigo50,
+            width: 1,
+          ),
         );
     }
   }
 
   _setFillColor() {
     switch (variant) {
+      case TextFormFieldVariant.FillBluegray800:
+        return ColorConstant.bluegray800;
+      case TextFormFieldVariant.OutlineIndigo50:
+        return ColorConstant.gray50;
       default:
-        return ColorConstant.gray201;
+        return ColorConstant.gray100;
     }
   }
 
   _setFilled() {
     switch (variant) {
+      case TextFormFieldVariant.FillBluegray800:
+        return true;
+      case TextFormFieldVariant.OutlineIndigo50:
+        return true;
       default:
         return true;
     }
@@ -157,24 +196,28 @@ class CustomTextFormField extends StatelessWidget {
     switch (padding) {
       default:
         return getPadding(
-          all: 14,
+          all: 17,
         );
     }
   }
 }
 
 enum TextFormFieldShape {
-  RoundedBorder26,
+  RoundedBorder8,
+  RoundedBorder20,
 }
 
 enum TextFormFieldPadding {
-  PaddingAll14,
+  PaddingAll17,
 }
 
 enum TextFormFieldVariant {
-  FillGray201,
+  OutlineIndigo50_1,
+  FillBluegray800,
+  OutlineIndigo50,
 }
 
 enum TextFormFieldFontStyle {
-  GDSTransportWebsite16,
+  UrbanistRomanMedium15,
+  RobotoLight13,
 }

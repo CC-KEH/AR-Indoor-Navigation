@@ -66,6 +66,7 @@ class CustomIconButton extends StatelessWidget {
   _buildDecoration() {
     return BoxDecoration(
       color: _setColor(),
+      border: _setBorder(),
       borderRadius: _setBorderRadius(),
     );
   }
@@ -74,30 +75,40 @@ class CustomIconButton extends StatelessWidget {
     switch (padding) {
       default:
         return getPadding(
-          all: 18,
+          all: 10,
         );
     }
   }
 
   _setColor() {
     switch (variant) {
+      case IconButtonVariant.FillTeal500:
+        return ColorConstant.teal500;
       default:
-        return ColorConstant.bluegray700;
+        return ColorConstant.whiteA700;
+    }
+  }
+
+  _setBorder() {
+    switch (variant) {
+      case IconButtonVariant.FillTeal500:
+        return null;
+      default:
+        return Border.all(
+          color: ColorConstant.indigo50,
+          width: getHorizontalSize(
+            1.00,
+          ),
+        );
     }
   }
 
   _setBorderRadius() {
     switch (shape) {
-      case IconButtonShape.RoundedBorder26:
-        return BorderRadius.circular(
-          getHorizontalSize(
-            26.50,
-          ),
-        );
       default:
         return BorderRadius.circular(
           getHorizontalSize(
-            30.00,
+            10.00,
           ),
         );
     }
@@ -105,14 +116,14 @@ class CustomIconButton extends StatelessWidget {
 }
 
 enum IconButtonShape {
-  CircleBorder30,
-  RoundedBorder26,
+  RoundedBorder10,
 }
 
 enum IconButtonPadding {
-  PaddingAll18,
+  PaddingAll10,
 }
 
 enum IconButtonVariant {
-  FillBluegray700,
+  OutlineIndigo50,
+  FillTeal500,
 }

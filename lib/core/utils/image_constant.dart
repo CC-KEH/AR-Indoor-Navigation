@@ -1,62 +1,77 @@
 class ImageConstant {
-  static String imgComposenewbtn53x53 =
-      'assets/images/img_composenewbtn_53x53.svg';
-
-  static String imgEllipse23 = 'assets/images/img_ellipse2_3.png';
+  static String imgVector = 'assets/images/img_vector.png';
 
   static String imgArrowleft = 'assets/images/img_arrowleft.svg';
 
-  static String imgMaskgroup24x24 = 'assets/images/img_maskgroup_24x24.svg';
+  static String imgLrc1 = 'assets/images/img_lrc1.png';
 
-  static String imgMenu = 'assets/images/img_menu.svg';
+  static String imgArrowdown = 'assets/images/img_arrowdown.svg';
 
-  static String imgEllipse24 = 'assets/images/img_ellipse2_4.png';
+  static String imgClock = 'assets/images/img_clock.svg';
 
-  static String imgEllipse22 = 'assets/images/img_ellipse2_2.png';
+  static String imgFacebook = 'assets/images/img_facebook.svg';
 
-  static String imgEllipse21 = 'assets/images/img_ellipse2_1.png';
+  static String imgGroup33290 = 'assets/images/img_group33290.svg';
 
-  static String imgEllipse21x52 = 'assets/images/img_ellipse2_1x52.png';
+  static String imgGroup38 = 'assets/images/img_group38.svg';
 
-  static String imgEllipse252x52 = 'assets/images/img_ellipse2_52x52.png';
+  static String imgGroup557x360 = 'assets/images/img_group_557x360.png';
 
-  static String imgUser = 'assets/images/img_user.svg';
+  static String imgRectangle326 = 'assets/images/img_rectangle326.png';
 
-  static String imgEllipse2 = 'assets/images/img_ellipse2.png';
+  static String imgThumbsup = 'assets/images/img_thumbsup.svg';
+
+  static String imgLightbulb18x16 = 'assets/images/img_lightbulb_18x16.svg';
+
+  static String imgLightbulb = 'assets/images/img_lightbulb.svg';
+
+  static String imgLogoBlack900 = 'assets/images/img_logo_black_900.svg';
+
+  static String imgGroup = 'assets/images/img_group.svg';
 
   static String imgSettings = 'assets/images/img_settings.svg';
 
-  static String imgEllipse28 = 'assets/images/img_ellipse2_8.png';
+  static String imgImage30x30 = 'assets/images/img_image_30x30.png';
 
-  static String imgEllipse27 = 'assets/images/img_ellipse2_7.png';
+  static String imgFire = 'assets/images/img_fire.svg';
 
-  static String img2 = 'assets/images/img_2.svg';
+  static String imgGroup214x303 = 'assets/images/img_group_214x303.png';
 
-  static String imgEllipse210 = 'assets/images/img_ellipse2_10.png';
+  static String imgArrow1 = 'assets/images/img_arrow1.svg';
 
-  static String imgEllipse211 = 'assets/images/img_ellipse2_11.png';
+  static String imgSignal = 'assets/images/img_signal.svg';
 
-  static String imgEllipse25 = 'assets/images/img_ellipse2_5.png';
+  static String imgSettings19x20 = 'assets/images/img_settings_19x20.svg';
 
-  static String imgEllipse29 = 'assets/images/img_ellipse2_9.png';
+  static String imgImg800x360 = 'assets/images/img_img_800x360.png';
 
-  static String imgImage15 = 'assets/images/img_image15.png';
+  static String imgImage1 = 'assets/images/img_image_1.png';
 
-  static String imgEllipse212 = 'assets/images/img_ellipse2_12.png';
+  static String imgImg = 'assets/images/img_img.png';
 
-  static String imgEllipse252x51 = 'assets/images/img_ellipse2_52x51.png';
+  static String imgPolygon1 = 'assets/images/img_polygon1.svg';
 
-  static String imgEllipse26 = 'assets/images/img_ellipse2_6.png';
-
-  static String imgCall = 'assets/images/img_call.svg';
+  static String imgGroupWhiteA700 = 'assets/images/img_group_white_a700.png';
 
   static String imgLocation = 'assets/images/img_location.svg';
 
-  static String imgMaskgroup = 'assets/images/img_maskgroup.svg';
+  static String imgLogo = 'assets/images/img_logo.svg';
 
-  static String imgComposenewbtn = 'assets/images/img_composenewbtn.svg';
+  static String imgFavorite = 'assets/images/img_favorite.svg';
 
-  static String imgCompose = 'assets/images/img_compose.svg';
+  static String imgCheckmark = 'assets/images/img_checkmark.svg';
+
+  static String imgImage44x44 = 'assets/images/img_image_44x44.png';
+
+  static String imgGoogle = 'assets/images/img_google.svg';
+
+  static String imgGroup553x360 = 'assets/images/img_group_553x360.png';
+
+  static String imgImage = 'assets/images/img_image.png';
+
+  static String imgSettings40x40 = 'assets/images/img_settings_40x40.svg';
+
+  static String imgHome = 'assets/images/img_home.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
 }

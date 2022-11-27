@@ -8,7 +8,6 @@ export 'package:ar_indoor_navigation/core/utils/pref_utils.dart';
 export 'package:ar_indoor_navigation/core/utils/initial_bindings.dart';
 export 'package:ar_indoor_navigation/theme/app_style.dart';
 export 'package:ar_indoor_navigation/theme/app_decoration.dart';
-export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:ar_indoor_navigation/routes/app_routes.dart';
 export 'package:ar_indoor_navigation/data/models/selectionPopupModel/selection_popup_model.dart';
 export 'package:ar_indoor_navigation/widgets/common_image_view.dart';
@@ -16,3 +15,5 @@ export 'package:ar_indoor_navigation/core/errors/exceptions.dart';
 export 'package:ar_indoor_navigation/core/network/network_info.dart';
 export 'package:ar_indoor_navigation/core/utils/logger.dart';
 export 'package:ar_indoor_navigation/core/utils/date_time_utils.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';
+

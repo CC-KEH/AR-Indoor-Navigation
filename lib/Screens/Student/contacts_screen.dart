@@ -207,37 +207,3 @@ class _ContactsState extends State<Contacts> with WidgetsBindingObserver {
     );
   }
 }
-//Expanded(
-//                 child: FutureBuilder(
-//                   future: getDocId(),
-//                   builder: (context, snapshot) {
-//                     return ListView.builder(
-//                       shrinkWrap: true,
-//                       itemCount: docIDs.length,
-//                       itemBuilder: (context, index) {
-//                         return Padding(
-//                           padding: EdgeInsets.symmetric(vertical: 2),
-//                           child: ListTile(
-//                             onTap: () {
-//                               String roomId = chatRoomId(
-//                                   _auth.displayName!, userMap!['First Name']);
-//                               Navigator.of(context).push(
-//                                 MaterialPageRoute(
-//                                   builder: (_) => ChatScreen(
-//                                     chatScreenId: roomId,
-//                                     userMap: userMap!,
-//                                   ),
-//                                 ),
-//                               );
-//                             },
-//                             title: GetUserName(
-//                               documentId: docIDs[index],
-//                             ),
-//                             textColor: Colors.white,
-//                           ),
-//                         );
-//                       },
-//                     );
-//                   },
-//                 ),
-//               ),

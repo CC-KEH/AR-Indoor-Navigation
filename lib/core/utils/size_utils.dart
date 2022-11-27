@@ -4,7 +4,7 @@ Size size = WidgetsBinding.instance.window.physicalSize /
     WidgetsBinding.instance.window.devicePixelRatio;
 const num DESIGN_WIDTH = 360;
 const num DESIGN_HEIGHT = 800;
-const num DESIGN_STATUS_BAR = 0;
+const num DESIGN_STATUS_BAR = 38;
 
 ///This method is used to get device viewport width.
 get width {

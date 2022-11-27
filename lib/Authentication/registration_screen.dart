@@ -6,6 +6,17 @@ import 'package:ar_indoor_navigation/animation/Fadeanimation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ar_indoor_navigation/Authentication/methods.dart';
+import 'package:ar_indoor_navigation/core/app_export.dart';
+import 'package:ar_indoor_navigation/core/utils/validation_functions.dart';
+import 'package:ar_indoor_navigation/widgets/custom_button.dart';
+import 'package:ar_indoor_navigation/widgets/custom_icon_button.dart';
+import 'package:ar_indoor_navigation/widgets/custom_text_form_field.dart';
+import 'package:ar_indoor_navigation/domain/googleauth/google_auth_helper.dart';
+import 'package:ar_indoor_navigation/Screens/Student/contacts_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:ar_indoor_navigation/Authentication/methods.dart';
+import 'package:ar_indoor_navigation/Authentication/registration_screen.dart';
+
 class RegistrationScreen extends StatefulWidget {
   // For going to login page
   // final VoidCallback showLoginScreen;
@@ -943,3 +954,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 //     );
 //   }
 // }
+
