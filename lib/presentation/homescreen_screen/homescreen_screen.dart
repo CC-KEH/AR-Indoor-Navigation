@@ -1,14 +1,14 @@
-import 'controller/homescreen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_indoor_navigation/core/app_export.dart';
 import 'package:ar_indoor_navigation/widgets/app_bar/appbar_image.dart';
 import 'package:ar_indoor_navigation/widgets/app_bar/appbar_title.dart';
 import 'package:ar_indoor_navigation/widgets/app_bar/custom_app_bar.dart';
 import 'package:ar_indoor_navigation/utils/class_recommendations.dart';
-import 'package:ar_indoor_navigation/Screens/Student/contacts_screen.dart';
 import 'package:ar_indoor_navigation/presentation/chats_screen/chats_screen.dart';
-import 'package:ar_indoor_navigation/widgets/custom_button.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ar_indoor_navigation/read%20data/get_user_name.dart';
+import 'package:ar_indoor_navigation/read%20data/get_user_details.dart';
 class HomescreenScreen extends StatefulWidget {
   const HomescreenScreen({Key? key}) : super(key: key);
 
@@ -17,8 +17,75 @@ class HomescreenScreen extends StatefulWidget {
 }
 
 class _HomescreenScreenState extends State<HomescreenScreen> {
+  TextEditingController _branchController = TextEditingController();
+  TextEditingController _yearController = TextEditingController();
+  TextEditingController _batchController = TextEditingController();
+  TextEditingController _campusController = TextEditingController();
+  TextEditingController _dayController = TextEditingController();
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Map<String, dynamic>? userMap;
+  List<String> docIDs = [];
+  final TextEditingController _search = TextEditingController();
+  final _auth = FirebaseAuth.instance.currentUser!;
+  bool isLoading = false;
+  Map<String, dynamic>? batchMap;
+  bool isUpdating = false;
+  bool updated = false;
+  Future accessDetails(
+      String batch,
+      String branch,
+      int year,
+      String campus,
+      ) async {
+    print("Accessing details for batch");
+    setState(() {
+      isUpdating = true;
+    });
+
+    QuerySnapshot snapshot = await _firestore
+        .collection('batches')
+        .doc("$batch")
+        .collection("Campus")
+        .doc("$campus")
+        .collection("Branch")
+        .doc("$branch")
+        .collection("Years")
+        .doc("$year")
+        .collection("Days")
+        .get();
+    final allData = snapshot.docs.map((doc) => doc.data()).toList();
+    print(allData);
+  }
+  void loadUserBatch() async {
+    setState(() {
+      isLoading = true;
+    });
+    await _firestore
+        .collection('Users')
+        .where("Email", isEqualTo: _search.text)
+        .get()
+        .then((value) {
+      setState(() {
+        userMap = value.docs[0].data();
+        isLoading = false;
+      });
+      print(userMap);
+    });
+  }
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('Users').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+          print(document.reference);
+          docIDs.add(document.reference.id);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    loadUserBatch();
     Color mainColor = Color(0xff292F3F);
     return SafeArea(
       child: Scaffold(
@@ -243,6 +310,31 @@ class _HomescreenScreenState extends State<HomescreenScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+  Widget loadbatch(){
+    return Expanded(
+      child: FutureBuilder(
+        future: getDocId(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: docIDs.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 2),
+                child: ListTile(
+                  onTap: () {},
+                  title: GetUserName(
+                    documentId: docIDs[index],
+                  ),
+                  textColor: Colors.white,
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

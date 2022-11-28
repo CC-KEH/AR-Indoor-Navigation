@@ -3,6 +3,7 @@ import 'package:ar_indoor_navigation/Authentication/login_page.dart';
 import 'package:ar_indoor_navigation/utils/class_recommendations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ar_indoor_navigation/utils/class_recommendations.dart';
 
 class MainScreen extends StatefulWidget {

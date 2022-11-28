@@ -16,6 +16,8 @@ Future createAccount(String firstname,String lastname, String email, String pass
     print("Account created Successful");
 
     userCrendetial.user!.updateDisplayName(firstname);
+    userCrendetial.user!.updateDisplayName(firstname);
+
 
     await _firestore.collection('Users').doc(_auth.currentUser!.uid).set({
       "First Name": firstname.trim(),
