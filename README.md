@@ -1,16 +1,10 @@
 # ar_indoor_navigation
 
-A new Flutter project.
+Flutter + Unity project for AR Indoor Navigation.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Flutter and Unity apps are working properly, the unity flutter widget is currently having a bug due to which unity could not be integrated in Flutter.
+Fronend - Flutter and Unity
+Backend - Firebase
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
